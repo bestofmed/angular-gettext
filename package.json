@@ -50,8 +50,5 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/rubenv/angular-gettext.git"
-  },
-  "dependencies": {
-    "grunt-cli": "^1.2.0"
   }
 }
