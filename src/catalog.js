@@ -14,13 +14,6 @@ angular.module('gettext').factory('gettextCatalog', function (gettextPlurals, ge
     var catalog;
     var noContext = '$$noContext';
 
-    // IE8 returns UPPER CASE tags, even though the source is lower case.
-    // This can causes the (key) string in the DOM to have a different case to
-    // the string in the `po` files.
-    // IE9, IE10 and IE11 reorders the attributes of tags.
-    var test = '<span id="test" title="test" class="tested">test</span>';
-    var isHTMLModified = (angular.element('<span>' + test + '</span>').html() !== test);
-
     var prefixDebug = function (string) {
         if (catalog.debug && catalog.currentLanguage !== catalog.baseLanguage) {
             return catalog.debugPrefix + string;
@@ -169,11 +162,6 @@ angular.module('gettext').factory('gettextCatalog', function (gettextPlurals, ge
             for (var key in strings) {
                 var val = strings[key];
 
-                if (isHTMLModified) {
-                    // Use the DOM engine to render any HTML in the key (#131).
-                    key = angular.element('<span>' + key + '</span>').html();
-                }
-
                 if (angular.isString(val) || angular.isArray(val)) {
                     // No context, wrap it in $$noContext.
                     var obj = {};
@@ -214,9 +202,6 @@ angular.module('gettext').factory('gettextCatalog', function (gettextPlurals, ge
         getStringFormFor: function (language, string, n, context) {
             if (!language) {
                 return null;
-            }
-            if (isHTMLModified) {
-                string = angular.element( '<span>' + string + '</span>' ).html();
             }
 
             var stringTable = this.strings[language] || {};
